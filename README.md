@@ -12,10 +12,10 @@
 
 ## 🔗 相关仓库
 
-| 仓库 | 说明 | 地址 |
-|------|------|------|
-| **前端（小程序）** | 本仓库 - 微信小程序源码 | https://github.com/liudali333/tuxiaozhi |
-| **后端（PHP API）** | 服务端 API，付费获取 | https://github.com/liudali333/tuxiaozhi-php |
+| 仓库 | 说明 | Gitee | GitHub |
+|------|------|-------|--------|
+| **前端（小程序）** | 本仓库 - 微信小程序源码 | [Gitee](https://gitee.com/liudali365/tuxiaozhi) | [GitHub](https://github.com/liudali333/tuxiaozhi) |
+| **后端（PHP API）** | 服务端 API，付费获取 | [Gitee](https://gitee.com/liudali365/tuxiaozhi-php) | [GitHub](https://github.com/liudali333/tuxiaozhi-php) |
 
 ---
 
@@ -119,7 +119,7 @@ module.exports = {
 
 > 后端服务为付费产品，包含完整的业务逻辑和 API 接口。
 
-- **后端仓库**：https://github.com/liudali333/tuxiaozhi-php（私有，付费后授权访问）
+- **后端仓库**：[Gitee](https://gitee.com/liudali365/tuxiaozhi-php) | [GitHub](https://github.com/liudali333/tuxiaozhi-php)（私有，付费后授权访问）
 - **价格**：请私信咨询
 - **包含内容**：
   - AI 图片生成 API（支持商品主图、背景替换等）
