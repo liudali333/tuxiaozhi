@@ -12,10 +12,10 @@
 
 ## 🔗 相关仓库
 
-| 仓库 | 说明 | Gitee | GitHub |
-|------|------|-------|--------|
-| **前端（小程序）** | 本仓库 - 微信小程序源码 | [Gitee](https://gitee.com/liudali365/tuxiaozhi) | [GitHub](https://github.com/liudali333/tuxiaozhi) |
-| **后端（PHP API）** | 服务端 API，付费获取 | [Gitee](https://gitee.com/liudali365/tuxiaozhi-php) | [GitHub](https://github.com/liudali333/tuxiaozhi-php) |
+| 仓库 | 说明 | Gitee | GitHub | GitCode |
+|------|------|-------|--------|----------|
+| **前端（小程序）** | 本仓库 - 微信小程序源码 | [Gitee](https://gitee.com/liudali365/tuxiaozhi) | [GitHub](https://github.com/liudali333/tuxiaozhi) | [GitCode](https://gitcode.com/liudali365/tuxiaozhi) |
+| **后端（PHP API）** | 服务端 API，付费获取 | [Gitee](https://gitee.com/liudali365/tuxiaozhi-php) | [GitHub](https://github.com/liudali333/tuxiaozhi-php) | [GitCode](https://gitcode.com/liudali365/tuxiaozhi-php) |
 
 ---
 
