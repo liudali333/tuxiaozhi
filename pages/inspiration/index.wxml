@@ -1,0 +1,96 @@
+<view class="page-inspiration">
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索灵感素材" 
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+        bindconfirm="onSearch"
+      />
+    </view>
+  </view>
+
+  <!-- 瀑布流图片墙 -->
+  <view class="waterfall-container">
+    <view class="waterfall-column">
+      <view 
+        wx:for="{{leftImages}}" 
+        wx:key="id" 
+        class="image-card"
+        bindtap="previewImage"
+        data-id="{{item.id}}"
+        style="margin-bottom: {{item.gap}}rpx;"
+      >
+        <image 
+          src="{{item.image}}" 
+          mode="widthFix" 
+          class="waterfall-image"
+          lazy-load
+          show-menu-by-longpress
+          bindload="onImageLoad"
+          binderror="onImageError"
+        />
+        <view class="image-overlay">
+            <view class="image-info">
+              <text class="image-title">{{item.title}}</text>
+              <view class="image-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+                <text wx:for="{{item.tags}}" wx:key="index" class="tag">{{item}}</text>
+              </view>
+            </view>
+          </view>
+      </view>
+    </view>
+    <view class="waterfall-column">
+      <view 
+        wx:for="{{rightImages}}" 
+        wx:key="id" 
+        class="image-card"
+        bindtap="previewImage"
+        data-id="{{item.id}}"
+        style="margin-bottom: {{item.gap}}rpx;"
+      >
+        <image 
+          src="{{item.image}}" 
+          mode="widthFix" 
+          class="waterfall-image"
+          lazy-load
+          show-menu-by-longpress
+          bindload="onImageLoad"
+          binderror="onImageError"
+        />
+        <view class="image-overlay">
+            <view class="image-info">
+              <text class="image-title">{{item.title}}</text>
+              <view class="image-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+                <text wx:for="{{item.tags}}" wx:key="index" class="tag">{{item}}</text>
+              </view>
+            </view>
+          </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{!loading && hasMore}}">
+    <view class="load-more-btn" bindtap="loadMore">
+      <text>📦 加载更多</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && images.length === 0}}">
+    <text class="empty-icon">📭</text>
+    <text class="empty-text">暂无灵感素材</text>
+    <text class="empty-hint">换个关键词试试</text>
+  </view>
+</view>

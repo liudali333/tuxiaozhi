@@ -1,0 +1,222 @@
+/* pages/recharge/index.wxss */
+
+.page-recharge {
+  min-height: 100vh;
+  background: var(--bg);
+  padding-bottom: 200rpx;
+}
+
+/* ── 余额栏 ───────────────────────────────────────── */
+.balance-bar {
+  background: #ffffff;
+  padding: 28rpx 32rpx;
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  margin-bottom: 8rpx;
+}
+
+.balance-label {
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+.balance-num {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.balance-unit {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-left: 4rpx;
+}
+
+/* ── 标题 ─────────────────────────────────────────── */
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding: 24rpx 32rpx 16rpx;
+}
+
+/* ── 套餐网格 ─────────────────────────────────────── */
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+  padding: 0 24rpx;
+}
+
+.package-item {
+  background: #ffffff;
+  border: 3rpx solid var(--border);
+  border-radius: 20rpx;
+  padding: 28rpx 20rpx 22rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  transition: all 0.22s;
+  position: relative;
+  cursor: pointer;
+}
+
+.package-item.active {
+  border-color: var(--primary);
+  background: rgba(255, 107, 53, 0.04);
+  box-shadow: 0 4rpx 20rpx rgba(255, 107, 53, 0.12);
+}
+
+.pkg-tag {
+  position: absolute;
+  top: -1rpx;
+  right: 24rpx;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 700;
+  padding: 4rpx 14rpx;
+  border-radius: 0 0 12rpx 12rpx;
+}
+
+.pkg-tokens {
+  font-size: 52rpx;
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  margin-top: 16rpx;
+}
+
+.pkg-unit {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.pkg-price {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.pkg-per {
+  font-size: 21rpx;
+  color: var(--text-placeholder);
+  margin-top: 4rpx;
+}
+
+.pkg-check {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: transparent;
+  font-weight: 600;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.pkg-check.show {
+  color: var(--primary);
+  height: auto;
+}
+
+/* ── 自定义提示 ──────────────────────────────────── */
+.custom-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-placeholder);
+  padding: 20rpx;
+}
+
+/* ── 底部支付栏 ──────────────────────────────────── */
+.pay-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  padding: 20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+
+.pay-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.pay-label {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.pay-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 2rpx;
+}
+
+.pay-yen {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.pay-num {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #07C160, #06AD56);
+  color: #ffffff;
+  border-radius: 44rpx;
+  padding: 0 56rpx;
+  height: 88rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(7, 193, 96, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pay-btn.disabled {
+  background: #DDDDDD;
+  box-shadow: none;
+  color: #999999;
+}
+
+.pay-btn::after {
+  border: none;
+}
+
+/* ── 注意事项 ────────────────────────────────────── */
+.notice {
+  margin: 24rpx 24rpx 0;
+  background: #ffffff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.notice-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14rpx;
+}
+
+.notice-item {
+  font-size: 25rpx;
+  color: var(--text-secondary);
+  line-height: 2;
+}

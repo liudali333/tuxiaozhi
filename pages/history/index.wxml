@@ -1,0 +1,94 @@
+<view class="page-history">
+  <!-- 顶部统计 -->
+  <view class="stats-bar">
+    <view class="stat-item">
+      <text class="stat-num">{{totalRecords}}</text>
+      <text class="stat-label">共{{totalRecords}}条</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num">{{totalTokens}}</text>
+      <text class="stat-label">累计消耗</text>
+    </view>
+  </view>
+
+  <!-- 存储期限警告 -->
+  <view class="warning-tip">
+    <text class="warning-icon">⚠️</text>
+    <text class="warning-text">服务器存储有限，图片仅保存1个月，请尽快保存到本地相册</text>
+  </view>
+
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索商品名称..."
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+      bindconfirm="onSearch"
+    />
+    <button class="search-btn" bindtap="onSearch">搜索</button>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{!loading && filteredList.length === 0}}" class="empty-state">
+    <view class="empty-icon">📭</view>
+    <view class="empty-title">暂无创作记录</view>
+    <view class="empty-sub" wx:if="{{searchKeyword}}">没有找到匹配的结果</view>
+    <view class="empty-sub" wx:else>快去首页生成第一张电商图吧</view>
+    <button wx:if="{{!searchKeyword}}" class="btn-primary empty-btn" bindtap="goHome">去生成</button>
+    <button wx:if="{{searchKeyword}}" class="btn-primary empty-btn" bindtap="clearSearch">清除搜索</button>
+  </view>
+
+  <!-- 历史列表（列表式） -->
+  <view wx:else class="history-list">
+    <view
+      wx:for="{{filteredList}}"
+      wx:key="taskId"
+      class="history-item"
+      bindtap="goToResult"
+      data-item="{{item}}"
+    >
+      <!-- 左侧商品信息 -->
+      <view class="item-info">
+        <view class="item-header">
+          <view class="type-tag {{item.type === 'main' ? 'tag-main' : 'tag-detail'}}">
+            {{item.typeName}}
+          </view>
+          <text class="item-time">{{item.timeStr}}</text>
+        </view>
+        <view class="product-name">{{item.name}}</view>
+        <view class="item-cost">-{{item.cost}}积分<text wx:if="{{item.modelName}}" class="cost-model">{{item.modelName}}</text></view>
+      </view>
+
+      <!-- 右侧图片 -->
+      <view class="item-image" catchtap="previewImage" data-url="{{item.imageUrl}}">
+        <image
+          src="{{item.imageUrl}}"
+          mode="aspectFill"
+          class="history-img"
+          lazy-load
+        />
+        <view class="download-hint">点击预览</view>
+      </view>
+    </view>
+
+    <!-- 加载提示 -->
+    <view wx:if="{{loading}}" class="loading-more">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 分页按钮 -->
+    <view wx:if="{{!loading && totalPages > 1}}" class="pagination">
+      <view class="page-btn {{page <= 1 ? 'disabled' : ''}}" bindtap="prevPage">
+        <text>上一页</text>
+      </view>
+      <view class="page-info">
+        <text>第 {{page}} / {{totalPages}} 页</text>
+      </view>
+      <view class="page-btn {{page >= totalPages ? 'disabled' : ''}}" bindtap="nextPage">
+        <text>下一页</text>
+      </view>
+    </view>
+  </view>
+</view>

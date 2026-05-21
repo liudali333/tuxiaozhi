@@ -1,0 +1,258 @@
+<view class="page-home">
+  <!-- ═══════════════════ 轮播图 + 公告 ═══════════════════ -->
+  <view wx:if="{{swiperList && swiperList.length > 0}}" class="swiper-container">
+    <swiper
+      class="swiper"
+      indicator-dots="true"
+      autoplay="true"
+      interval="4000"
+      duration="500"
+      circular="true"
+      indicator-color="rgba(255,255,255,0.5)"
+      indicator-active-color="#ffffff"
+      current="{{swiperCurrent}}"
+      bindchange="onSwiperChange"
+    >
+      <swiper-item wx:for="{{swiperList}}" wx:key="id">
+        <image src="{{item.image}}" mode="aspectFill" class="swiper-image" lazy-load />
+      </swiper-item>
+    </swiper>
+    <!-- 公告栏嵌入轮播图底部 -->
+    <view class="swiper-announcement" wx:if="{{announcement}}">
+      <view class="announcement-left">
+        <view class="announcement-icon">📢</view>
+        <view class="announcement-label">公告</view>
+      </view>
+      <view class="announcement-text-wrap">
+        <view class="announcement-text">
+          <view class="announcement-text-inner">
+            <text>{{announcement}}</text>
+            <text class="announcement-separator">｜</text>
+            <text>{{announcement}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 金刚位 ═══════════════════ -->
+  <view wx:if="{{quickEntries && quickEntries.length > 0}}" class="quick-entries">
+    <view
+      wx:for="{{quickEntries}}"
+      wx:key="id"
+      class="quick-entry-item"
+      bindtap="onQuickEntryTap"
+      data-item="{{item}}"
+    >
+      <image wx:if="{{item.image}}" src="{{item.image}}" class="entry-icon" mode="aspectFill" />
+      <view wx:else class="entry-icon-placeholder">📷</view>
+      <text class="entry-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ Tab 切换 + 商品信息输入 ═══════════════════ -->
+  <view class="card tab-input-card">
+    <!-- Tab 切换 -->
+    <view class="tab-bar">
+      <view 
+        wx:for="{{tabs}}" 
+        wx:key="key"
+        class="tab-item {{currentTab === item.key ? 'active' : ''}}"
+        bindtap="switchTab"
+        data-tab="{{item.key}}"
+      >
+        <text class="tab-icon">{{item.icon}}</text>
+        <text class="tab-label">{{item.label}}</text>
+      </view>
+    </view>
+
+    <!-- 商品信息/提示词输入 -->
+    <view class="tab-content">
+      <view class="input-group">
+        <view class="input-label-row">
+          <view class="input-label">产品标题/描述/提示词</view>
+          <view wx:if="{{currentTab === 'main'}}" class="optimize-btn" bindtap="optimizePrompt">✨ 优化提示词</view>
+        </view>
+        <view class="prompt-with-btn">
+          <textarea
+            placeholder="请输入产品名称、描述或直接输入提示词"
+            value="{{form.input}}"
+            bindinput="onInput"
+            data-field="input"
+            maxlength="500"
+            auto-height="{{true}}"
+            style="min-height:150rpx"
+            class="prompt-textarea"
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 主图时显示生成设置 ═══════════════════ -->
+  <block wx:if="{{currentTab === 'main'}}">
+  <view class="card">
+    <view class="card-title">⚙️ 生成设置</view>
+
+    <!-- 图片比例 -->
+    <view class="input-group">
+      <view class="input-label">图片比例</view>
+      <view class="ratio-grid">
+        <view
+          wx:for="{{config.MAIN_IMAGE_RATIOS}}"
+          wx:key="value"
+          class="ratio-item {{form.ratio === item.value ? 'active' : ''}}"
+          bindtap="selectRatio"
+          data-value="{{item.value}}"
+        >
+          <view class="ratio-shape" style="aspect-ratio:{{item.value.replace(':', '/')}}"></view>
+          <view class="ratio-label">{{item.label}}</view>
+          <view class="ratio-desc">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- AI 模型下拉选择 -->
+    <view class="input-group" wx:if="{{models.length > 0}}">
+      <view class="input-label">🖼️ 图像模型</view>
+      <picker
+        mode="selector"
+        range="{{models}}"
+        range-key="name"
+        value="{{selectedModelIndex}}"
+        bindchange="onModelChange"
+      >
+        <view class="picker-wrap">
+          <view class="picker-content">
+            <view class="picker-main">
+              <text class="picker-name">{{selectedModel.name || '请选择模型'}}</text>
+              <text class="picker-desc" wx:if="{{selectedModel.description}}">{{selectedModel.description}}</text>
+            </view>
+            <view class="picker-cost">
+              <text class="cost-label">消耗</text>
+              <text class="cost-value">{{cost}}</text>
+              <text class="cost-unit">积分</text>
+            </view>
+          </view>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 无模型时的提示 -->
+    <view class="input-group" wx:if="{{models.length === 0}}">
+      <view class="input-label">🖼️ 图像模型</view>
+      <view class="no-model-tip">
+        <text>暂无可用模型，请联系管理员配置</text>
+      </view>
+    </view>
+  </view>
+  </block>
+
+
+
+  <!-- ═══════════════════ 参考图上传 ═══════════════════ -->
+  <view class="card ref-image-card">
+    <view class="card-title">📷 参考图（可选，最多{{MAX_REF_IMAGES}}张）</view>
+    <view class="ref-image-tip">上传商品原图，AI 会参考构图和风格生成新图</view>
+    <view class="ref-image-upload">
+      <block wx:for="{{refImages}}" wx:key="url">
+        <view class="ref-image-preview">
+          <image src="{{item.url}}" mode="aspectFill" bindtap="previewRefImage" data-index="{{index}}" lazy-load />
+          <view class="ref-image-remove" bindtap="removeRefImage" data-index="{{index}}">✕</view>
+        </view>
+      </block>
+      <view class="ref-image-add" wx:if="{{refImages.length < MAX_REF_IMAGES}}" bindtap="chooseRefImage">
+        <text class="ref-image-add-icon">+</text>
+        <text class="ref-image-add-text">上传{{refImages.length > 0 ? '更多' : '参考图'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 详情图专属内容 ═══════════════════ -->
+  <block wx:if="{{currentTab === 'detail'}}">
+    <!-- 分镜标签选择 -->
+    <view class="card">
+      <view class="card-title">📋 分镜标签 <text class="module-limit-tip">最多选3个</text></view>
+      <view class="module-tags-wrap">
+        <view 
+          wx:for="{{presetModules}}" 
+          wx:key="id"
+          class="module-tag-item {{item.isSelected ? 'active' : ''}}"
+          bindtap="toggleModule"
+          data-id="{{item.id}}"
+        >
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 生成分镜提示词按钮 -->
+    <view class="card">
+      <button 
+        class="btn-generate-prompt {{generatingPrompt ? 'loading' : ''}}"
+        bindtap="generateDetailPrompt"
+        disabled="{{generatingPrompt || selectedModules.length === 0}}"
+      >
+        <text wx:if="{{generatingPrompt}}">⏳ 生成中...</text>
+        <text wx:else>✨ 生成分镜提示词</text>
+      </button>
+    </view>
+
+    <!-- AI 模型下拉选择 -->
+    <view class="card">
+      <view class="input-label">🖼️ 生图模型</view>
+      <view wx:if="{{models.length > 0}}">
+        <picker
+          mode="selector"
+          range="{{models}}"
+          range-key="name"
+          value="{{selectedModelIndex}}"
+          bindchange="onModelChange"
+        >
+          <view class="picker-wrap">
+            <view class="picker-content">
+              <view class="picker-main">
+                <text class="picker-name">{{selectedModel.name || '请选择模型'}}</text>
+                <text class="picker-desc" wx:if="{{selectedModel.description}}">{{selectedModel.description}}</text>
+              </view>
+              <view class="picker-cost">
+                <text class="cost-label">消耗</text>
+                <text class="cost-value">{{cost}}</text>
+                <text class="cost-unit">积分</text>
+              </view>
+            </view>
+            <text class="picker-arrow">▼</text>
+          </view>
+        </picker>
+      </view>
+      <view class="no-model-tip" wx:if="{{models.length === 0}}">
+        <text>暂无可用模型，请联系管理员配置</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ═══════════════════ 底部操作栏 ═══════════════════ -->
+  <view class="bottom-bar">
+    <view class="bottom-left">
+      <view class="cost-info">
+        <text class="cost-label">消耗</text>
+        <text class="cost-num">{{cost}}</text>
+        <text class="cost-unit">积分</text>
+      </view>
+      <view class="balance-info {{balance < cost ? 'warn' : ''}}">
+        <text wx:if="{{balance < cost}}" class="balance-warn">⚠️ 积分不足</text>
+        <text wx:else>余额 {{balance}} 积分</text>
+        <text class="to-recharge" bindtap="goRecharge">充值</text>
+      </view>
+    </view>
+    <button
+      class="btn-primary generate-btn"
+      bindtap="startGenerate"
+      disabled="{{generating || models.length === 0}}"
+    >
+      <text wx:if="{{generating}}">⏳ 生成中...</text>
+      <text wx:else>🎨 立即生成</text>
+    </button>
+  </view>
+</view>

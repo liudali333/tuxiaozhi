@@ -1,0 +1,63 @@
+<view class="container">
+  <!-- 奖励说明卡片 -->
+  <view class="reward-card">
+    <view class="reward-title">邀请奖励</view>
+    <view class="reward-items">
+      <view class="reward-item">
+        <view class="reward-value">{{rewardPoints}}</view>
+        <view class="reward-label">积分</view>
+        <view class="reward-desc">好友注册即送</view>
+      </view>
+      <view class="reward-divider"></view>
+      <view class="reward-item">
+        <view class="reward-value">{{rebatePercent}}%</view>
+        <view class="reward-label">返积分</view>
+        <view class="reward-desc">好友充值返利</view>
+      </view>
+    </view>
+    <button class="share-btn" open-type="share">🎁 立即邀请好友</button>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="stats-bar">
+    <view class="stat-item">
+      <text class="stat-value">{{total}}</text>
+      <text class="stat-label">已邀请</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">{{rebateTotal}}</text>
+      <text class="stat-label">已获得积分</text>
+    </view>
+  </view>
+
+  <!-- 邀请列表 -->
+  <view class="list-header">
+    <text class="list-title">邀请记录</text>
+    <text class="list-count">共 {{total}} 人</text>
+  </view>
+
+  <view class="list-container">
+    <block wx:if="{{list.length > 0}}">
+      <view class="list-item" wx:for="{{list}}" wx:key="id">
+        <image class="avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+        <view class="info">
+          <text class="nickname">{{item.nickname}}</text>
+          <text class="time">注册于 {{item.timeStr}}</text>
+        </view>
+        <view class="status-badge">已绑定</view>
+      </view>
+    </block>
+    <view class="empty" wx:else>
+      <text class="empty-icon">🎁</text>
+      <text class="empty-text">暂无邀请记录</text>
+      <text class="empty-hint">邀请好友即可获得奖励</text>
+    </view>
+
+    <view class="loading" wx:if="{{loading}}">
+      <text>加载中...</text>
+    </view>
+    <view class="no-more" wx:if="{{noMore && list.length > 0}}">
+      <text>— 没有更多了 —</text>
+    </view>
+  </view>
+</view>

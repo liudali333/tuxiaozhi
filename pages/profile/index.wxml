@@ -1,0 +1,187 @@
+<view class="page-profile">
+  <!-- ═══════════════════ 顶部头部（未登录） ═══════════════════ -->
+  <view class="profile-header" wx:if="{{!hasLogin}}">
+    <view class="login-card">
+      <view class="login-icon">🎨</view>
+      <view class="login-title">欢迎使用 AI 图像生成</view>
+      <view class="login-desc">登录后可使用签到、生成等功能</view>
+      
+      <!-- 头像昵称登录弹窗 -->
+      <view class="inline-login-form" wx:if="{{!showProfileSetup}}">
+        <button class="login-btn" bindtap="showLoginModal">
+          <text class="login-btn-icon">👤</text>
+          <text>微信一键登录</text>
+        </button>
+      </view>
+      
+      <view wx:if="{{loginLoading}}" class="login-loading">
+        <view class="loading-spinner"></view>
+        <text>正在登录...</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 顶部头部（已登录） ═══════════════════ -->
+  <view class="profile-header" wx:else>
+    <view class="user-row">
+      <image
+        class="avatar"
+        src="{{userInfo.avatar || '/images/default_avatar.png'}}"
+        mode="aspectFill"
+      />
+      <view class="user-info">
+        <view class="user-name">{{userInfo.nickname || '微信用户'}}</view>
+        <view class="user-id">用户ID: {{userId || openid ? userId : '未登录'}}</view>
+      </view>
+      <view class="user-balance-action">
+        <view class="user-balance-wrapper">
+          <view class="user-balance-num">{{balance}}</view>
+          <view class="user-balance-label">可用积分</view>
+        </view>
+        <button class="recharge-btn" bindtap="goRecharge">
+          充值
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 头像昵称设置弹窗 ═══════════════════ -->
+  <view class="profile-setup-modal" wx:if="{{showProfileSetup}}">
+    <view class="modal-mask"></view>
+    <view class="modal-content">
+      <view class="modal-title">设置头像和昵称</view>
+      <view class="modal-desc">请设置您的头像和昵称以完成登录</view>
+      
+      <view class="profile-setup-form">
+        <!-- 头像选择 -->
+        <view class="avatar-setup">
+          <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+            <image 
+              class="avatar-preview" 
+              src="{{tempAvatar || '/images/default_avatar.png'}}" 
+              mode="aspectFill"
+            />
+            <view class="avatar-tip">点击选择头像</view>
+          </button>
+        </view>
+        
+        <!-- 昵称输入 -->
+        <view class="nickname-setup">
+          <input 
+            class="nickname-input"
+            type="nickname"
+            placeholder="请输入昵称"
+            value="{{tempNickname}}"
+            bindinput="onNicknameInput"
+            bindblur="onNicknameBlur"
+          />
+        </view>
+      </view>
+      
+      <button class="modal-btn confirm-btn" bindtap="confirmProfileSetup" disabled="{{!tempAvatar || !tempNickname}}">
+        完成登录
+      </button>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 签到卡片 ═══════════════════ -->
+  <view class="sign-card" wx:if="{{hasLogin}}">
+    <view class="sign-card-left">
+      <view class="sign-icon">🎁</view>
+      <view class="sign-info">
+        <view class="sign-title">每日签到</view>
+        <view class="sign-desc">观看广告获得 {{signReward}} 积分</view>
+      </view>
+    </view>
+    <button 
+      class="sign-btn {{todaySigned ? 'signed' : ''}}" 
+      bindtap="doSignIn" 
+      disabled="{{todaySigned || signLoading}}"
+    >
+      {{signLoading ? '加载中...' : (todaySigned ? '今日已签' : '立即签到')}}
+    </button>
+  </view>
+
+  <!-- ═══════════════════ 菜单列表 ═══════════════════ -->
+  <view class="menu-list card">
+    <view class="menu-item" bindtap="goRedeem">
+      <view class="menu-left">
+        <view class="menu-icon-wrap" style="background:#FFF3E0">
+          <text class="menu-icon">🎫</text>
+        </view>
+        <text class="menu-text">兑换码兑换</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-desc">输入兑换码获得积分</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="menu-item" bindtap="goBalanceLogs">
+      <view class="menu-left">
+        <view class="menu-icon-wrap" style="background:#E3F2FD">
+          <text class="menu-icon">📋</text>
+        </view>
+        <text class="menu-text">积分记录</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="menu-item" bindtap="goInvite">
+      <view class="menu-left">
+        <view class="menu-icon-wrap" style="background:#E8F5E9">
+          <text class="menu-icon">🎁</text>
+        </view>
+        <text class="menu-text">邀请好友</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <button class="menu-item menu-item-btn contact-btn" open-type="contact" bindcontact="onContact">
+      <view class="menu-left">
+        <view class="menu-icon-wrap" style="background:#E3F2FD">
+          <text class="menu-icon">💬</text>
+        </view>
+        <text class="menu-text">联系客服</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-arrow">›</text>
+      </view>
+    </button>
+
+    <view class="menu-item" bindtap="goTransfer">
+      <view class="menu-left">
+        <view class="menu-icon-wrap" style="background:#FFF3E0">
+          <text class="menu-icon">💱</text>
+        </view>
+        <text class="menu-text">积分互转</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="menu-item" bindtap="showAgreement">
+      <view class="menu-left">
+        <view class="menu-icon-wrap" style="background:#E8F5E9">
+          <text class="menu-icon">📜</text>
+        </view>
+        <text class="menu-text">用户协议与隐私政策</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ═══════════════════ 退出登录按钮（仅已登录时显示） ═══════════════════ -->
+  <view wx:if="{{hasLogin}}" class="logout-section">
+    <button class="logout-btn" bindtap="logout">
+      🚪 退出登录
+    </button>
+  </view>
+</view>

@@ -1,0 +1,66 @@
+<view class="page-transfer">
+  <!-- 顶部提示 -->
+  <view class="header">
+    <view class="balance-info">
+      <text class="label">我的积分</text>
+      <text class="balance">{{balance}}</text>
+    </view>
+    <view class="tips">请确认用户ID后再进行转赠</view>
+  </view>
+
+  <!-- 用户ID输入 -->
+  <view class="card">
+    <view class="input-section">
+      <view class="input-label">接收方用户ID</view>
+      <view class="input-wrapper">
+        <input
+          class="input"
+          type="number"
+          placeholder="请输入用户ID"
+          value="{{targetUserId}}"
+          bindinput="onUserIdInput"
+        />
+        <button 
+          class="query-btn" 
+          bindtap="checkUser"
+          disabled="{{!targetUserId}}"
+        >查询</button>
+      </view>
+    </view>
+
+    <!-- 查询到的用户信息 -->
+    <view wx:if="{{targetUser}}" class="user-info">
+      <image class="user-avatar" src="{{targetUser.avatar || '/images/default_avatar.png'}}" mode="aspectFill" />
+      <view class="user-detail">
+        <view class="user-name">{{targetUser.nickname || '微信用户'}}</view>
+        <view class="user-id">ID: {{targetUser.id}}</view>
+      </view>
+      <view class="check-icon">✓</view>
+    </view>
+  </view>
+
+  <!-- 积分输入 -->
+  <view class="card">
+    <view class="input-section">
+      <view class="input-label">转赠积分</view>
+      <input
+        class="input full-width"
+        type="number"
+        placeholder="请输入转赠积分"
+        value="{{transferAmount}}"
+        bindinput="onAmountInput"
+      />
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="footer">
+    <button
+      class="submit-btn"
+      bindtap="confirmTransfer"
+      disabled="{{!targetUser || !transferAmount || submitting}}"
+    >
+      {{submitting ? '转赠中...' : '确认转赠'}}
+    </button>
+  </view>
+</view>

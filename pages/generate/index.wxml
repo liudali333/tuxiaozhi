@@ -1,0 +1,102 @@
+<view class="page-generate">
+  <!-- 商品名标题 -->
+  <view class="page-header">
+    <view class="page-title">📦 {{name || '商品'}}</view>
+    <view class="page-sub">配置生成参数</view>
+  </view>
+
+  <!-- 主图参数 -->
+  <block wx:if="{{mode === 'main'}}">
+    <view class="card">
+      <view class="section-title">图片比例</view>
+      <view class="ratio-grid">
+        <view
+          wx:for="{{config.MAIN_IMAGE_RATIOS}}"
+          wx:key="value"
+          class="ratio-item {{form.ratio === item.value ? 'active' : ''}}"
+          bindtap="selectRatio"
+          data-value="{{item.value}}"
+        >
+          <view class="ratio-label">{{item.label}}</view>
+          <view class="ratio-desc">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="section-title">文字风格</view>
+      <view class="style-chips">
+        <view
+          wx:for="{{config.TEXT_STYLES}}"
+          wx:key="id"
+          class="style-chip {{form.style === item.id ? 'active' : ''}}"
+          bindtap="selectStyle"
+          data-id="{{item.id}}"
+        >{{item.icon}} {{item.label}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="section-title">背景样式</view>
+      <scroll-view scroll-x class="bg-scroll">
+        <view
+          wx:for="{{config.BACKGROUNDS}}"
+          wx:key="id"
+          class="bg-swatch {{form.bg === item.id ? 'active' : ''}}"
+          style="background:{{item.color}};"
+          bindtap="selectBg"
+          data-id="{{item.id}}"
+        >
+          <text class="bg-label {{item.id === 'white' || item.id === 'light' ? 'dark-label' : ''}}">{{item.label}}</text>
+          <view wx:if="{{form.bg === item.id}}" class="bg-check">✓</view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="card">
+      <view class="section-title">生成数量</view>
+      <view class="count-row">
+        <text class="count-tip">每张消耗 {{config.TOKEN_COST.MAIN_IMAGE}} 积分</text>
+        <view class="stepper">
+          <view class="step-btn" bindtap="setCount" data-val="-1">-</view>
+          <text class="step-num">{{form.count || 1}}</text>
+          <view class="step-btn" bindtap="setCount" data-val="1">+</view>
+        </view>
+      </view>
+      <view class="cost-tip">合计消耗 {{config.TOKEN_COST.MAIN_IMAGE * (form.count || 1)}} 积分</view>
+    </view>
+  </block>
+
+  <!-- 详情图参数 -->
+  <block wx:if="{{mode === 'detail'}}">
+    <view class="card">
+      <view class="section-title">包含模块</view>
+      <view class="module-list">
+        <view
+          wx:for="{{config.DETAIL_MODULES}}"
+          wx:key="id"
+          class="module-item {{form.modules.indexOf(item.id) > -1 ? 'active' : ''}}"
+          bindtap="toggleModule"
+          data-id="{{item.id}}"
+        >
+          <text class="module-icon">{{item.icon}}</text>
+          <text class="module-text">{{item.label}}</text>
+          <view class="module-check">{{form.modules.indexOf(item.id) > -1 ? '✓' : '+'}}</view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <view class="cost-info">
+      <text>本次消耗 </text>
+      <text class="cost-num">{{getCost()}}</text>
+      <text> 积分</text>
+    </view>
+    <button class="btn-primary gen-btn" bindtap="startGenerate" disabled="{{generating}}">
+      <text wx:if="{{generating}}">生成中...</text>
+      <text wx:else>🎨 开始生成</text>
+    </button>
+  </view>
+</view>

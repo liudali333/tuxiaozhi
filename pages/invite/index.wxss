@@ -1,0 +1,206 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 20rpx;
+}
+
+.reward-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 24rpx;
+  padding: 40rpx 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 30rpx rgba(102, 126, 234, 0.3);
+}
+
+.reward-title {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.reward-items {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30rpx;
+}
+
+.reward-item {
+  text-align: center;
+}
+
+.reward-value {
+  color: #ffd700;
+  font-size: 56rpx;
+  font-weight: bold;
+}
+
+.reward-label {
+  color: #fff;
+  font-size: 28rpx;
+  margin-top: 8rpx;
+}
+
+.reward-desc {
+  color: rgba(255,255,255,0.7);
+  font-size: 22rpx;
+  margin-top: 6rpx;
+}
+
+.reward-divider {
+  width: 1rpx;
+  height: 100rpx;
+  background: rgba(255,255,255,0.3);
+}
+
+.share-btn {
+  width: 100%;
+  background: #fff;
+  color: #667eea;
+  font-size: 30rpx;
+  font-weight: bold;
+  border-radius: 50rpx;
+  padding: 24rpx 0;
+  border: none;
+}
+
+.share-btn::after {
+  border: none;
+}
+
+.stats-bar {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-item:first-child {
+  border-right: 1rpx solid #eee;
+}
+
+.stat-value {
+  color: #333;
+  font-size: 40rpx;
+  font-weight: bold;
+  display: block;
+}
+
+.stat-label {
+  color: #999;
+  font-size: 24rpx;
+  display: block;
+  margin-top: 8rpx;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 10rpx;
+}
+
+.list-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.list-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.list-container {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.info {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 28rpx;
+  color: #333;
+  display: block;
+}
+
+.time {
+  font-size: 22rpx;
+  color: #999;
+  display: block;
+  margin-top: 6rpx;
+}
+
+.status-badge {
+  background: #e8f5e9;
+  color: #4caf50;
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.empty {
+  padding: 80rpx 0;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  color: #333;
+  font-size: 28rpx;
+  display: block;
+}
+
+.empty-hint {
+  color: #999;
+  font-size: 24rpx;
+  display: block;
+  margin-top: 10rpx;
+}
+
+.loading {
+  text-align: center;
+  padding: 30rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.no-more {
+  text-align: center;
+  padding: 30rpx;
+  color: #999;
+  font-size: 24rpx;
+}

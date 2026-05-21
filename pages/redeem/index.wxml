@@ -1,0 +1,77 @@
+<view class="page-redeem">
+  <!-- ═══════════════════ 输入状态 ═══════════════════ -->
+  <block wx:if="{{!success}}">
+    <view class="card">
+      <view class="card-icon">🎫</view>
+      <view class="card-title">兑换码兑换</view>
+      <view class="card-sub">输入您获得的16位兑换码，即可获得相应积分</view>
+
+      <!-- 兑换码输入框 -->
+      <view class="code-input-wrap {{code.length > 0 ? 'active' : ''}}">
+        <input
+          class="code-input"
+          type="text"
+          placeholder="请输入兑换码"
+          placeholder-class="code-placeholder"
+          value="{{code}}"
+          bindinput="onInput"
+          maxlength="16"
+          spellcheck="false"
+          autoFocus
+          confirm-type="done"
+        />
+        <view wx:if="{{code}}" class="code-clear" bindtap="clearCode">
+          <text>✕</text>
+        </view>
+      </view>
+
+      <!-- 格式提示 -->
+      <view class="code-hint">
+        <text class="{{code.length === 16 ? 'hint-ok' : 'hint-warn'}}">
+          {{code.length}}/16 位
+        </text>
+        <text wx:if="{{code.length === 16}}" class="hint-ok"> ✓ 格式正确</text>
+        <text wx:if="{{code.length > 0 && code.length < 16}}" class="hint-warn"> 还差 {{16 - code.length}} 位</text>
+      </view>
+
+      <!-- 兑换按钮 -->
+      <button
+        class="btn-primary redeem-btn"
+        bindtap="doRedeem"
+        disabled="{{loading || code.length !== 16}}"
+      >
+        <text wx:if="{{loading}}">兑换中...</text>
+        <text wx:else>立即兑换</text>
+      </button>
+    </view>
+
+    <!-- 示例说明 -->
+    <view class="example-card card">
+      <view class="example-title">📖 兑换码说明</view>
+      <view class="example-item">• 兑换码为 16 位字母数字组合</view>
+      <view class="example-item">• 每个兑换码仅可使用一次</view>
+      <view class="example-item">• 兑换码有效期以券面标注为准</view>
+      <view class="example-item">• 如兑换失败请联系客服</view>
+    </view>
+  </block>
+
+  <!-- ═══════════════════ 兑换成功状态 ═══════════════════ -->
+  <block wx:if="{{success}}">
+    <view class="success-page">
+      <view class="success-icon">🎉</view>
+      <view class="success-title">兑换成功！</view>
+      <view class="success-sub">恭喜获得</view>
+      <view class="success-tokens">
+        <text class="token-emoji">💎</text>
+        <text class="token-num">{{earnedTokens}}</text>
+        <text class="token-unit">积分</text>
+      </view>
+      <view class="success-tip">积分已到账，可前往首页使用</view>
+
+      <view class="success-actions">
+        <button class="btn-outline" bindtap="reset">继续兑换</button>
+        <button class="btn-primary" bindtap="goBack">去生成图片</button>
+      </view>
+    </view>
+  </block>
+</view>

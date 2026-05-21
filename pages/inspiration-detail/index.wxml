@@ -1,0 +1,65 @@
+<view class="page-inspiration-detail">
+  <!-- 结果图 -->
+  <view class="result-image-container">
+    <image 
+      src="{{detail.image}}" 
+      mode="widthFix" 
+      class="result-image"
+      bindload="onImageLoad"
+      binderror="onImageError"
+    />
+    <view class="image-loading" wx:if="{{loading}}">
+      <view class="loading-spinner"></view>
+      <text>图片加载中...</text>
+    </view>
+  </view>
+
+  <!-- 提示词区域 -->
+  <view class="prompt-section">
+    <view class="prompt-header">
+      <text class="prompt-label">📝 提示词</text>
+      <view class="copy-btn" bindtap="copyPrompt">
+        <text>📋 复制</text>
+      </view>
+    </view>
+    <view class="prompt-content">{{detail.prompt}}</view>
+  </view>
+
+  <!-- 参考图区域 -->
+  <view class="ref-section" wx:if="{{detail.refImages && detail.refImages.length > 0}}">
+    <view class="ref-header">
+      <text class="ref-label">📷 参考图</text>
+      <text class="ref-count">{{detail.refImages.length}} 张</text>
+    </view>
+    <scroll-view class="ref-images-scroll" scroll-x>
+      <view class="ref-images-container">
+        <view 
+          wx:for="{{detail.refImages}}" 
+          wx:key="index"
+          class="ref-image-item"
+          bindtap="previewRefImage"
+          data-index="{{index}}"
+        >
+          <image 
+            src="{{item}}" 
+            mode="aspectFill" 
+            class="ref-image"
+            lazy-load
+          />
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 标签区域 -->
+  <view class="tags-section" wx:if="{{detail.tags && detail.tags.length > 0}}">
+    <view class="tags-container">
+      <text wx:for="{{detail.tags}}" wx:key="index" class="tag">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="back-btn" bindtap="goBack">
+    <text>← 返回</text>
+  </view>
+</view>

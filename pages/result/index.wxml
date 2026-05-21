@@ -1,0 +1,66 @@
+<view class="page-result">
+  <!-- ═══════════════════ 生成中 ═══════════════════ -->
+  <block wx:if="{{status === 'generating'}}">
+    <view class="generating-box">
+      <view class="loading-emoji">🎨</view>
+      <view class="generating-title">AI 正在生成中...</view>
+      <view class="generating-sub">预计 10~30 秒，请耐心等待</view>
+      <view class="progress-wrap">
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{progress}}%"></view>
+        </view>
+        <text class="progress-text">{{progress}}%</text>
+      </view>
+      <view class="generating-tips">
+        <text>💡 生成过程中请保持网络畅通</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ═══════════════════ 生成成功 ═══════════════════ -->
+  <block wx:if="{{status === 'success'}}">
+    <!-- 图片预览 -->
+    <view class="image-preview" bindtap="previewImage">
+      <image
+        src="{{imageUrl}}"
+        mode="widthFix"
+        class="preview-img"
+        lazy-load
+      />
+      <view class="preview-overlay">
+        <view class="preview-hint">🔍 点击全屏预览</view>
+      </view>
+    </view>
+
+    <!-- AI 水印提示 -->
+    <view class="watermark-notice">
+      <text>⚠️ AI 生成内容 · 请勿直接商用 · 建议添加个人水印</text>
+    </view>
+
+    <!-- 原生广告位 -->
+    <view wx:if="{{adUnitId}}" class="native-ad-container">
+      <ad 
+        unit-id="{{adUnitId}}" 
+        class="native-ad" 
+        ad-type="native"
+        bindload="onAdLoad"
+        binderror="onAdError"
+      />
+    </view>
+  </block>
+
+  <!-- ═══════════════════ 生成失败 ═══════════════════ -->
+  <block wx:if="{{status === 'failed'}}">
+    <view class="failed-box">
+      <view class="failed-icon">❌</view>
+      <view class="failed-title">生成失败</view>
+      <view class="failed-sub">{{errorMsg}}</view>
+      <button class="btn-primary retry-btn" bindtap="retryGenerate">
+        🔄 重新生成
+      </button>
+      <button class="btn-outline back-btn" bindtap="goHome">
+        返回首页
+      </button>
+    </view>
+  </block>
+</view>

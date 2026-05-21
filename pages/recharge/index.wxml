@@ -1,0 +1,69 @@
+<view class="page-recharge">
+  <!-- ═══════════════════ 余额栏 ═══════════════════ -->
+  <view class="balance-bar">
+    <text class="balance-label">💎 当前积分：</text>
+    <text class="balance-num">{{balance}}</text>
+    <text class="balance-unit">积分</text>
+  </view>
+
+  <!-- ═══════════════════ 套餐选择 ═══════════════════ -->
+  <view class="section-title">选择充值套餐</view>
+
+  <view class="package-grid">
+    <view
+      wx:for="{{packages}}"
+      wx:key="id"
+      class="package-item {{selectedPkg === item.id ? 'active' : ''}}"
+      bindtap="selectPkg"
+      data-id="{{item.id}}"
+    >
+      <!-- 标签 -->
+      <view wx:if="{{item.tag}}" class="pkg-tag">{{item.tag}}</view>
+
+      <!-- 积分数量 -->
+      <view class="pkg-tokens">{{item.tokens}}</view>
+      <view class="pkg-unit">积分</view>
+
+      <!-- 价格 -->
+      <view class="pkg-price">¥{{item.price}}</view>
+
+      <!-- 单价 -->
+      <view class="pkg-per">
+        约 {{item.unitPrice}} 元/100积分
+      </view>
+
+      <!-- 选中指示 -->
+      <view class="pkg-check {{selectedPkg === item.id ? 'show' : ''}}">✓ 已选</view>
+    </view>
+  </view>
+
+  <view class="custom-tip">更多套餐请联系客服定制</view>
+
+  <!-- ═══════════════════ 底部支付栏 ═══════════════════ -->
+  <view class="pay-bar">
+    <view class="pay-info">
+      <text class="pay-label">应付金额</text>
+      <view class="pay-amount">
+        <text class="pay-yen">¥</text>
+        <text class="pay-num">{{selectedPkgPrice || '0'}}</text>
+      </view>
+    </view>
+    <button
+      class="pay-btn {{selectedPkg ? '' : 'disabled'}}"
+      bindtap="doPayment"
+      disabled="{{!selectedPkg || paying}}"
+    >
+      <text wx:if="{{paying}}">支付中...</text>
+      <text wx:else>微信支付</text>
+    </button>
+  </view>
+
+  <!-- ═══════════════════ 注意事项 ═══════════════════ -->
+  <view class="notice">
+    <view class="notice-title">📌 充值须知</view>
+    <view class="notice-item">• 虚拟商品一经购买，不支持退款</view>
+    <view class="notice-item">• 积分有效期 12 个月，从充值日起算</view>
+    <view class="notice-item">• 积分可叠加，不清零</view>
+    <view class="notice-item">• 如需发票请联系客服</view>
+  </view>
+</view>
